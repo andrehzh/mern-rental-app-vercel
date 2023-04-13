@@ -133,7 +133,7 @@ export const addItem = (formData) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await api.post("/api/items/create", formData, config);
+    const { data } = await api.post("/api/items", formData, config);
 
     dispatch({ type: ITEM_ADD_SUCCESS, payload: data });
     localStorage.setItem("itemInfo", JSON.stringify(data));
