@@ -53,7 +53,7 @@ export const listItems =
     try {
       dispatch({ type: ITEM_LIST_REQUEST });
 
-      const { data } = await axios.get(
+      const { data } = await api.get(
         `/api/items?keyword=${keyword}&pageNumber=${pageNumber}`
       );
 
@@ -76,7 +76,7 @@ export const listMyItems = (userId) => async (dispatch) => {
   try {
     dispatch({ type: ITEM_MY_LIST_REQUEST });
 
-    const { data } = await axios.get(`/api/items/owner/${userId}`);
+    const { data } = await api.get(`/api/items/owner/${userId}`);
 
     dispatch({
       type: ITEM_MY_LIST_SUCCESS,
@@ -101,7 +101,7 @@ export const listItemDetails = (id) => async (dispatch) => {
   try {
     dispatch({ type: ITEM_DETAILS_REQUEST });
 
-    const { data } = await axios.get(`/api/items/${id}`);
+    const { data } = await api.get(`/api/items/${id}`);
 
     dispatch({
       type: ITEM_DETAILS_SUCCESS,
@@ -133,7 +133,7 @@ export const addItem = (formData) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.post("/api/items", formData, config);
+    const { data } = await api.post("/api/items", formData, config);
 
     dispatch({ type: ITEM_ADD_SUCCESS, payload: data });
     localStorage.setItem("itemInfo", JSON.stringify(data));
@@ -164,7 +164,7 @@ export const deleteItem = (id) => async (dispatch, getState) => {
       },
     };
 
-    await axios.delete(`/api/items/${id}`, config);
+    await api.delete(`/api/items/${id}`, config);
 
     dispatch({
       type: ITEM_DELETE_SUCCESS,
@@ -197,7 +197,7 @@ export const updateItem = (item) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.put(`/api/items/${item._id}`, item, config);
+    const { data } = await api.put(`/api/items/${item._id}`, item, config);
 
     dispatch({ type: ITEM_UPDATE_SUCCESS });
 
