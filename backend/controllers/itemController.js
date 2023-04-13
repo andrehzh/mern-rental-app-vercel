@@ -61,7 +61,7 @@ const deleteItemsById = asyncHandler(async (req, res) => {
 });
 
 // @desc add rental item by User
-// @route POST /api/items/create
+// @route POST /api/items
 // @access Private
 
 const addItem = asyncHandler(async (req, res) => {

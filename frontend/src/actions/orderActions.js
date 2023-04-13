@@ -293,7 +293,7 @@ export const setIsBorrowedBorrowerConfirmed =
 
       var config = {
         method: "put",
-        url: `/api/orders/${order._id}`,
+        url: `https://mern-rental-app-vercel-server.vercel.app/api/orders/${order._id}`,
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${userInfo.token}`,
@@ -335,7 +335,7 @@ export const setIsBorrowedLenderConfirmed =
 
       var config = {
         method: "put",
-        url: `/api/orders/${order._id}`,
+        url: `https://mern-rental-app-vercel-server.vercel.app/api/orders/${order._id}`,
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${userInfo.token}`,
@@ -377,7 +377,7 @@ export const setIsReturnedBorrowerConfirmed =
 
       var config = {
         method: "put",
-        url: `/api/orders/${order._id}`,
+        url: `https://mern-rental-app-vercel-server.vercel.app/api/orders/${order._id}`,
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${userInfo.token}`,
@@ -419,7 +419,7 @@ export const setIsReturnedLenderConfirmed =
 
       var config = {
         method: "put",
-        url: `/api/orders/${order._id}`,
+        url: `https://mern-rental-app-vercel-server.vercel.app/api/orders/${order._id}`,
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${userInfo.token}`,
