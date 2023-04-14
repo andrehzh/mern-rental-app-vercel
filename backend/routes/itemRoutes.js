@@ -36,13 +36,13 @@ router.route("/available").get(getItemsAvailable);
 router
   .route("/:id")
   .get(getItemsById)
-  .delete(protect, admin, deleteItem)
-  .put(protect, admin, updateItem);
+  .delete(protect, deleteItem)
+  .put(protect, updateItem);
 router.route("/").post(protect, upload.single("image"), addItem);
 
-//might need to add protect?
-router.route("/:id").delete(deleteItemsById);
-router.route("/:id").put(updateItem);
+// //might need to add protect?
+// router.route("/:id").delete(deleteItemsById);
+// router.route("/:id").put(updateItem);
 
 router.route("/owner/:ownerId").get(getItemsByOwnerId);
 router.route("/renter/:renterId").get(getItemsByRenterId);

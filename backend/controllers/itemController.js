@@ -154,45 +154,6 @@ const updateItem = asyncHandler(async (req, res) => {
     },
     { new: true }
   );
-
-  //   const updatedItem = await item.save()
-  //   res.json({
-  //     name: updateItem.name,
-  //     brand: updateItem.brand,
-  //     category: updateItem.category,
-  //     description: updateItem.description,
-  //     pricePerDay: updateItem.pricePerDay,
-  //     isOrderPlaced: updateItem.isOrderPlaced
-  //   })
-  // } else {
-  //   res.status(404)
-  //   throw new Error('Item not found')
-  // }
-
-  // const renterObjectId = new mongoose.Types.ObjectId(renter)
-
-  // const updatedItem = await Item.findOneAndUpdate(
-  //   { _id: req.params.id },
-  //   {
-  //     $set: {
-  //       renter: renterObjectId,
-  //       name: name,
-  //       brand: brand,
-  //       category: category,
-  //       description: description,
-  //       pricePerDay: pricePerDay,
-  //       isOrderPlaced: isOrderPlaced,
-  //     },
-  //   },
-  //   { new: true }
-  // )
-
-  // if (updatedItem) {
-  //   res.json(updatedItem)
-  // } else {
-  //   res.status(404)
-  //   throw new Error('Item not found')
-  // }
 });
 
 // @desc fetch all AVAILABLE rental Items isOrderPlaced == false in batches of 5
