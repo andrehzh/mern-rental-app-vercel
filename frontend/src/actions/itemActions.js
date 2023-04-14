@@ -133,11 +133,7 @@ export const addItem = (formData) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.post(
-      "https://mern-rental-app-vercel-server.vercel.app/api/items",
-      formData,
-      config
-    );
+    const { data } = await axios.post("/api/items", formData, config);
 
     dispatch({ type: ITEM_ADD_SUCCESS, payload: data });
     localStorage.setItem("itemInfo", JSON.stringify(data));

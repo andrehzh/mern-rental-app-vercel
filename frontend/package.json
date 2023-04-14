@@ -1,6 +1,6 @@
 {
   "name": "frontend",
-  "proxy": "https://mern-rental-app-vercel-server.vercel.app",
+  "proxy": "http://localhost:4000",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
