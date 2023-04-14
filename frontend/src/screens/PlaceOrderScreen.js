@@ -51,6 +51,9 @@ const PlaceOrderScreen = ({ history }) => {
     // eslint-disable-next-line
   }, [success, navigate]);
 
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
   const placeOrderHandler = () => {
     dispatch(
       createOrder({
@@ -61,6 +64,7 @@ const PlaceOrderScreen = ({ history }) => {
         shippingPrice: cart.shippingPrice,
         taxPrice: cart.taxPrice,
         totalPrice: cart.totalPrice,
+        user: userInfo,
       })
     );
   };

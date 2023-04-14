@@ -1,13 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams} from "react-router-dom";
-import { Table, Row, Col, Image, ListGroupItem, Button, Icon } from 'react-bootstrap'
+import { useNavigate, useParams } from "react-router-dom";
+import {
+  Table,
+  Row,
+  Col,
+  Image,
+  ListGroupItem,
+  Button,
+  Icon,
+} from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 //import { listProducts } from "../actions/productActions";
 import { deleteItem, listMyItems } from "../actions/itemActions";
 import { ITEM_DELETE_RESET } from "../constants/itemConstants";
-import { listMyItemOrders, setIsBorrowedLenderConfirmed, setIsReturnedLenderConfirmed } from "../actions/orderActions";
+import {
+  listMyItemOrders,
+  setIsBorrowedLenderConfirmed,
+  setIsReturnedLenderConfirmed,
+} from "../actions/orderActions";
 
 const MyItemsScreen = () => {
   // const { keyword, pageNumber } = useParams();
@@ -15,7 +27,7 @@ const MyItemsScreen = () => {
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
-  console.log("userinfo" + !userInfo)
+  console.log("userinfo" + !userInfo);
   // to check if user is logged in
 
   //   const orderListMy = useSelector((state) => state.orderListMy)
@@ -27,7 +39,7 @@ const MyItemsScreen = () => {
 
   const orderItemList = useSelector((state) => state.orderItemList);
   const { loading2, error2, orders } = orderItemList;
-  console.log("sup" + orders)
+  console.log("sup" + orders);
 
   if (itemList) {
     console.log(itemList);
@@ -52,7 +64,7 @@ const MyItemsScreen = () => {
       // if not logged in
     } else {
       dispatch(listMyItems(userInfo._id)); // Execute the action creator
-      dispatch(listMyItemOrders(userInfo._id))
+      dispatch(listMyItemOrders(userInfo._id));
       setMessage(null);
     }
     if (successDelete) {
@@ -62,18 +74,18 @@ const MyItemsScreen = () => {
   }, [dispatch, userInfo, successDelete, navigate]);
 
   const createItemhandler = () => {
-    navigate('/addItem')
-  }
+    navigate("/addItem");
+  };
 
   const confirmItemBorrowedHandler = (order, orderItemId) => {
     dispatch(setIsBorrowedLenderConfirmed(order, orderItemId));
-    navigate("/myItems")
-  }
+    navigate("/myItems");
+  };
 
   const confirmItemReturnedHandler = (order, orderItemId) => {
     dispatch(setIsReturnedLenderConfirmed(order, orderItemId));
-    navigate("/myItems")
-  }
+    navigate("/myItems");
+  };
 
   return (
     <Col>
@@ -98,71 +110,87 @@ const MyItemsScreen = () => {
               </tr>
             </thead>
             <tbody>
-              {orders&& orders.map((order) => (order.orderItems.map((orderItem)=> (
-                orderItem.owner == userInfo._id && (
-                  <tr key={orderItem._id}>
-                    <td>{orderItem.name}</td>
-                    <td>
-                      <Image src={orderItem.image} alt={orderItem.name} fluid />
-                    </td>
-                    <td>{orderItem.price}</td>
-                    <td>{order.user}</td>
-                    <td>{order.isPaid ? "PAYMENT DONE" : "PAYMENT NOT DONE"}</td>
-                    <td>
-                    {
-                      orderItem.isBorrowed.lenderConfirmation ? (
-                        orderItem.isBorrowed.borrowerConfirmation ? (
-                          orderItem.isReturned.borrowerConfirmation ? (
-                            orderItem.isReturned.lenderConfirmation ? (
-                              "RETURNED"
-                            ) : (
-                              "AWAITING RETURN CONFIRMATION FROM LENDER"
-                            ) 
-                            ) : (
-                                "ON LOAN"
-                            )
-                        ) : (
-                            "AWAITING BORROW CONFIRMATION FROM BORROWER"
-                        )
-                    ) : (
-                        "AWAITING BORROW CONFIRMATION FROM LENDER"
-                    )
-                    }
-                    </td>
-                    <td>
-                      {
-                        orderItem.isBorrowed.lenderConfirmation ? (
-                          orderItem.isBorrowed.borrowerConfirmation ? (
-                            orderItem.isReturned.borrowerConfirmation ? (
-                              orderItem.isReturned.lenderConfirmation ? (
-                                ""
-                              ) : (
-                                <Button className='btn-sm' variant='light' onClick={() => confirmItemReturnedHandler(order, orderItem._id)}>
-                                  Confirm item returned
-                                </Button>
-                              ) 
-                              ) : (
+              {orders &&
+                orders.map((order) =>
+                  order.orderItems.map(
+                    (orderItem) =>
+                      orderItem.owner == userInfo._id && (
+                        <tr key={orderItem._id}>
+                          <td>{orderItem.name}</td>
+                          <td>
+                            <Image
+                              src={orderItem.image}
+                              alt={orderItem.name}
+                              fluid
+                            />
+                          </td>
+                          <td>{orderItem.price}</td>
+                          <td>{order.user}</td>
+                          <td>
+                            {order.isPaid ? "PAYMENT DONE" : "PAYMENT NOT DONE"}
+                          </td>
+                          <td>
+                            {orderItem.isBorrowed.lenderConfirmation
+                              ? orderItem.isBorrowed.borrowerConfirmation
+                                ? orderItem.isReturned.borrowerConfirmation
+                                  ? orderItem.isReturned.lenderConfirmation
+                                    ? "RETURNED"
+                                    : "AWAITING RETURN CONFIRMATION FROM LENDER"
+                                  : "ON LOAN"
+                                : "AWAITING BORROW CONFIRMATION FROM BORROWER"
+                              : "AWAITING BORROW CONFIRMATION FROM LENDER"}
+                          </td>
+                          <td>
+                            {orderItem.isBorrowed.lenderConfirmation ? (
+                              orderItem.isBorrowed.borrowerConfirmation ? (
+                                orderItem.isReturned.borrowerConfirmation ? (
+                                  orderItem.isReturned.lenderConfirmation ? (
+                                    ""
+                                  ) : (
+                                    <Button
+                                      className="btn-sm"
+                                      variant="light"
+                                      onClick={() =>
+                                        confirmItemReturnedHandler(
+                                          order,
+                                          orderItem._id
+                                        )
+                                      }
+                                    >
+                                      Confirm item returned
+                                    </Button>
+                                  )
+                                ) : (
                                   ""
+                                )
+                              ) : (
+                                ""
                               )
-                          ) : (
-                              ""
-                          )
-                      ) : (
-                        <Button className='btn-sm' variant='light' onClick={() => confirmItemBorrowedHandler(order, orderItem._id)}>
-                          Lend item
-                        </Button>
+                            ) : (
+                              <Button
+                                className="btn-sm"
+                                variant="light"
+                                onClick={() =>
+                                  confirmItemBorrowedHandler(
+                                    order,
+                                    orderItem._id
+                                  )
+                                }
+                              >
+                                Lend item
+                              </Button>
+                            )}
+                          </td>
+                        </tr>
                       )
-                    }
-                    </td>
-                  </tr>
-                )
-              ))))}
+                  )
+                )}
             </tbody>
           </Table>
         )}
       </Row>
       <Row>
-      <h2>My Items</h2>
+        <h2>My Items</h2>
         {message && <Message variant="success">{message}</Message>}
         <Col>
           <ListGroupItem>
@@ -205,15 +233,15 @@ const MyItemsScreen = () => {
                   <td>{item.category}</td>
                   <td>{item.description}</td>
                   <td>{item.pricePerDay}</td>
-                  <td>{
-                      !item.isOrderPlaced &&
+                  <td>
+                    {!item.isOrderPlaced && (
                       <Button
-                      variant="danger"
-                      onClick={() => deleteHandler(item._id)}
+                        variant="danger"
+                        onClick={() => deleteHandler(item._id)}
                       >
-                      <i className="fas fa-trash">Delete</i>
+                        <i className="fas fa-trash">Delete</i>
                       </Button>
-                    }
+                    )}
                   </td>
                   {/* <td>
                   {item.isOrderPlaced ? (

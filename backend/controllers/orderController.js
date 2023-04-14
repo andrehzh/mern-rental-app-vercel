@@ -55,7 +55,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
 // @route   GET /api/orders/:id
 // @access  Private
 const getOrderById = asyncHandler(async (req, res) => {
-  const order = await Order.findById(req.params.id)
+  const order = await Order.findById(req.params.id);
   // .populate(
   //   "user",
   //   "name email" // get name and email of a user tagged to order
@@ -81,7 +81,7 @@ const updateOrder = asyncHandler(async (req, res) => {
     createdAt,
     updatedAt,
     paidAt,
-    paymentResult
+    paymentResult,
   } = req.body;
 
   // const userObjectId = new mongoose.Types.ObjectId(user);
@@ -112,7 +112,7 @@ const updateOrder = asyncHandler(async (req, res) => {
     res.status(404);
     throw new Error("Order not found");
   }
-  // const order = await Order.findById(req.params.orderId);  
+  // const order = await Order.findById(req.params.orderId);
   // console.log("order: "+ order.orderItems);
 
   // const updatedOrder = await Order.updateOne(
@@ -193,7 +193,7 @@ const getMyOrders = asyncHandler(async (req, res) => {
 // @access  Private
 
 const getMyItemOrders = asyncHandler(async (req, res) => {
-  const orders = await Order.find({ 'orderItems.owner': req.params.userId });
+  const orders = await Order.find({ "orderItems.owner": req.params.userId });
   res.json(orders);
 });
 

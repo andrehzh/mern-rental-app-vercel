@@ -76,8 +76,8 @@ const addItem = asyncHandler(async (req, res) => {
     endDate,
   } = req.body;
 
-  // const image = "/images/test_image.jpg";
-  const image = req.file.path.replace("frontend/public", "");
+  const image = "/images/test_image.jpg";
+  // const image = req.file.path.replace("frontend/public", "");
 
   //item doesnt have to be unique
 
