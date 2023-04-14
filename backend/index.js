@@ -15,7 +15,7 @@ connectDB();
 
 const app = express();
 const corsOrigin = {
-  origin: "https://mern-rental-app-vercel.vercel.app/", //front end port
+  origin: "https://mern-rental-app-vercel.vercel.app", //front end port
   credentials: true,
   optionSuccessStatus: 200,
 };
