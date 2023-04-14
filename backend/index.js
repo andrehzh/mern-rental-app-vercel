@@ -14,9 +14,13 @@ dotenv.config();
 connectDB();
 
 const app = express();
-
+const corsOrigin = {
+  origin: "https://mern-rental-app-vercel.vercel.app/", //front end port
+  credentials: true,
+  optionSuccessStatus: 200,
+};
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOrigin));
 
 app.get("/", (req, res) => {
   res.send("API is running...");
