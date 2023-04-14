@@ -30,7 +30,6 @@ import {
   ORDER_MY_ITEM_FAIL,
 } from "../constants/orderConstants";
 import { logout } from "./userActions";
-import api from "../api";
 
 export const createOrder = (order) => async (dispatch, getState) => {
   console.log(order);
@@ -50,7 +49,11 @@ export const createOrder = (order) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await api.post(`/api/orders`, order, config);
+    const { data } = await axios.post(
+      `http://localhost:4000/api/orders`,
+      order,
+      config
+    );
 
     dispatch({
       type: ORDER_CREATE_SUCCESS,
@@ -92,7 +95,10 @@ export const getOrderDetails = (id) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await api.get(`/api/orders/myorders/${id}`, config);
+    const { data } = await axios.get(
+      `https://mern-rental-app-vercel-server.vercel.app/api/orders/myorders/${id}`,
+      config
+    );
 
     dispatch({
       type: ORDER_DETAILS_SUCCESS,
@@ -131,8 +137,8 @@ export const payOrder =
         },
       };
 
-      const { data } = await api.put(
-        `/api/orders/${orderId}/pay`,
+      const { data } = await axios.put(
+        `http://localhost:4000/api/orders/${orderId}/pay`,
         paymentResult,
         config
       );
@@ -172,8 +178,8 @@ export const payOrder =
 //       },
 //     }
 
-//     const { data } = await api.put(
-//       `/api/orders/${order._id}/deliver`,
+//     const { data } = await axios.put(
+//       `http://localhost:4000/api/orders/${order._id}/deliver`,
 //       {},
 //       config
 //     )
@@ -213,7 +219,10 @@ export const listMyOrders = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await api.get(`/api/orders/myorders`, config);
+    const { data } = await axios.get(
+      `https://mern-rental-app-vercel-server.vercel.app/api/orders/myorders`,
+      config
+    );
 
     dispatch({
       type: ORDER_LIST_MY_SUCCESS,
@@ -250,7 +259,10 @@ export const listMyItemOrders = (userId) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await api.get(`/api/orders/${userId}`, config);
+    const { data } = await axios.get(
+      `https://mern-rental-app-vercel-server.vercel.app/api/orders/${userId}`,
+      config
+    );
     dispatch({
       type: ORDER_MY_ITEM_SUCCESS,
       payload: {

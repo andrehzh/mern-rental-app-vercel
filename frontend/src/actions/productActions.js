@@ -7,7 +7,6 @@ import {
   PRODUCT_DETAILS_SUCCESS,
   PRODUCT_DETAILS_FAIL,
 } from "../constants/productConstants";
-import api from "../api";
 
 export const listProducts =
   (keyword = "", pageNumber = "") =>
@@ -15,8 +14,8 @@ export const listProducts =
     try {
       dispatch({ type: PRODUCT_LIST_REQUEST });
 
-      const { data } = await api.get(
-        `/api/products?keyword=${keyword}&pageNumber=${pageNumber}`
+      const { data } = await axios.get(
+        `https://mern-rental-app-vercel-server.vercel.app/api/products?keyword=${keyword}&pageNumber=${pageNumber}`
       );
 
       dispatch({
@@ -38,7 +37,9 @@ export const listProductDetails = (id) => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_DETAILS_REQUEST });
 
-    const { data } = await api.get(`/api/products/${id}`);
+    const { data } = await axios.get(
+      `https://mern-rental-app-vercel-server.vercel.app/api/products/${id}`
+    );
 
     dispatch({
       type: PRODUCT_DETAILS_SUCCESS,

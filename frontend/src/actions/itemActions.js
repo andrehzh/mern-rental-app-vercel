@@ -20,7 +20,6 @@ import {
   ITEM_UPDATE_SUCCESS,
   ITEM_UPDATE_FAIL,
 } from "../constants/itemConstants";
-import api from "../api";
 
 export const listItemsAvailable =
   (keyword = "", pageNumber = "") =>
@@ -28,8 +27,8 @@ export const listItemsAvailable =
     try {
       dispatch({ type: ITEM_LIST_REQUEST });
 
-      const { data } = await api.get(
-        `/api/items/available?keyword=${keyword}&pageNumber=${pageNumber}`
+      const { data } = await axios.get(
+        `https://mern-rental-app-vercel-server.vercel.app/api/items/available?keyword=${keyword}&pageNumber=${pageNumber}`
       );
 
       dispatch({
@@ -53,8 +52,8 @@ export const listItems =
     try {
       dispatch({ type: ITEM_LIST_REQUEST });
 
-      const { data } = await api.get(
-        `/api/items?keyword=${keyword}&pageNumber=${pageNumber}`
+      const { data } = await axios.get(
+        `https://mern-rental-app-vercel-server.vercel.app/api/items?keyword=${keyword}&pageNumber=${pageNumber}`
       );
 
       dispatch({
@@ -76,7 +75,9 @@ export const listMyItems = (userId) => async (dispatch) => {
   try {
     dispatch({ type: ITEM_MY_LIST_REQUEST });
 
-    const { data } = await api.get(`/api/items/owner/${userId}`);
+    const { data } = await axios.get(
+      `https://mern-rental-app-vercel-server.vercel.app/api/items/owner/${userId}`
+    );
 
     dispatch({
       type: ITEM_MY_LIST_SUCCESS,
@@ -101,7 +102,9 @@ export const listItemDetails = (id) => async (dispatch) => {
   try {
     dispatch({ type: ITEM_DETAILS_REQUEST });
 
-    const { data } = await api.get(`/api/items/${id}`);
+    const { data } = await axios.get(
+      `https://mern-rental-app-vercel-server.vercel.app/api/items/${id}`
+    );
 
     dispatch({
       type: ITEM_DETAILS_SUCCESS,
@@ -168,7 +171,7 @@ export const deleteItem = (id) => async (dispatch, getState) => {
       },
     };
 
-    await api.delete(`/api/items/${id}`, config);
+    await axios.delete(`http://localhost:4000/api/items/${id}`, config);
 
     dispatch({
       type: ITEM_DELETE_SUCCESS,
@@ -201,7 +204,11 @@ export const updateItem = (item) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await api.put(`/api/items/${item._id}`, item, config);
+    const { data } = await axios.put(
+      `http://localhost:4000/api/items/${item._id}`,
+      item,
+      config
+    );
 
     dispatch({ type: ITEM_UPDATE_SUCCESS });
 
