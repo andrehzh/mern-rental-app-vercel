@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { PayPalButton } from "react-paypal-button-v2";
+import {
+  PayPalScriptProvider,
+  PayPalButtons,
+  usePayPalScriptReducer,
+} from "@paypal/react-paypal-js";
 import { Link } from "react-router-dom";
 import { Row, Col, ListGroup, Image, Card, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -47,13 +51,55 @@ const OrderScreen = ({}) => {
     );
   }
 
+  const ButtonWrapper = ({ currency, amount, onSuccess }) => {
+    const [{ isPending }, dispatch] = usePayPalScriptReducer();
+
+    useEffect(() => {
+      dispatch({
+        type: "resetOptions",
+        value: {
+          currency: currency,
+        },
+      });
+    }, [currency]);
+
+    return (
+      <>
+        {isPending && <Loader />}
+        <PayPalButtons
+          style={{ layout: "vertical" }}
+          createOrder={(data, actions) => {
+            return actions.order
+              .create({
+                purchase_units: [
+                  {
+                    amount: {
+                      currency_code: currency,
+                      value: amount,
+                    },
+                  },
+                ],
+              })
+              .then((orderId) => {
+                return orderId;
+              });
+          }}
+          onApprove={(data, actions) => {
+            return actions.order.capture().then((details) => {
+              onSuccess(details);
+            });
+          }}
+        />
+      </>
+    );
+  };
+
   useEffect(() => {
     const addPayPalScript = async () => {
       const { data: clientId } = await api.get("/api/config/paypal");
-      // fetch clientid from backend using api.get
       const script = document.createElement("script");
       script.type = "text/javascript";
-      script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`;
+      script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}&components=buttons&currency=USD`;
       script.async = true;
       script.onload = () => {
         setSdkReady(true);
@@ -197,28 +243,22 @@ const OrderScreen = ({}) => {
                   {!sdkReady ? (
                     <Loader />
                   ) : (
-                    <PayPalButton
-                      amount={order.totalPrice}
-                      onSuccess={successPaymentHandler}
-                    />
+                    <PayPalScriptProvider
+                      options={{
+                        "client-id": "test",
+                        components: "buttons",
+                        currency: "USD",
+                      }}
+                    >
+                      <ButtonWrapper
+                        currency="USD"
+                        amount={order.totalPrice}
+                        onSuccess={successPaymentHandler}
+                      />
+                    </PayPalScriptProvider>
                   )}
                 </ListGroup.Item>
               )}
-              {/* {loadingDeliver && <Loader />}
-              {userInfo &&
-                userInfo.isAdmin &&
-                order.isPaid &&
-                !order.isDelivered && (
-                  <ListGroup.Item>
-                    <Button
-                      type='button'
-                      className='btn btn-block'
-                      onClick={deliverHandler}
-                    >
-                      Mark As Delivered
-                    </Button>
-                  </ListGroup.Item>
-                )} } */}
             </ListGroup>
           </Card>
         </Col>
